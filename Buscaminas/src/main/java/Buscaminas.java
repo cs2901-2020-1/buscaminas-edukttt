@@ -27,4 +27,32 @@ public class Buscaminas {
         Display.display(board);
         Display.display(displayedBoard);
     }
+    public static void checkNearby(int x, int y){
+	    cnt = 0;
+	    if(board[x+1][y] == '*'){     //derecho
+		    cnt +=1;
+	    }
+	    if(board[x][y+1] == '*'){     //superior
+		    cnt +=1;
+	    }
+	    if(board[x+1][y+1] == '*'){   //superior derecho
+		    cnt +=1;
+	    }
+	    if(board[x-1][y+1] == '*'){   //superior izquierdo
+		    cnt +=1;
+	    }
+	    if(board[x-1][y] == '*'){     //izquierdo
+		    cnt +=1;
+	    }
+	    if(board[x-1][y-1] == '*'){   //inferior izquierdo
+		    cnt +=1;
+	    }
+	    if(board[x][y-1] == '*'){     //abajo
+		    cnt +=1;
+	    }
+	    if(board[x+1][y-1] == '*'){   //inferior derecho
+		    cnt +=1;
+	    }
+	    return cnt;
+    }
 }
