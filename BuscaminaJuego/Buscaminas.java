@@ -2,31 +2,33 @@ package BuscaminaJuego;
 import java.util.Scanner;
 
 public class Buscaminas {
+    private static int bombs=0;
+    private static int box=0;
 
     public static int checkNearby(String [][] board, int x, int y){
         int cnt = 0;
-	    if(x != 9 && board[x+1][y].equals("*")){     //derecho
+        if(x != 9 && board[x+1][y].equals("*")){     //derecho
             cnt +=1;
         }
-	    if(y != 0 && board[x][y-1].equals("*")){     //superior
+        if(y != 0 && board[x][y-1].equals("*")){     //superior
             cnt +=1;
         }
-	    if(y != 0 && x != 9 && board[x+1][y-1].equals("*")){   //superior derecho
+        if(y != 0 && x != 9 && board[x+1][y-1].equals("*")){   //superior derecho
             cnt +=1;
         }
-	    if(y != 0 && x != 0 && board[x-1][y-1].equals("*")){   //superior izquierdo
+        if(y != 0 && x != 0 && board[x-1][y-1].equals("*")){   //superior izquierdo
             cnt +=1;
         }
-	    if(x != 0 && board[x-1][y].equals("*")){     //izquierdo
+        if(x != 0 && board[x-1][y].equals("*")){     //izquierdo
             cnt +=1;
         }
-	    if(x != 0 && y != 9 && board[x-1][y+1].equals("*")){   //inferior izquierdo
+        if(x != 0 && y != 9 && board[x-1][y+1].equals("*")){   //inferior izquierdo
             cnt +=1;
         }
-	    if(y != 9 && board[x][y+1].equals("*")){     //inferior
+        if(y != 9 && board[x][y+1].equals("*")){     //inferior
             cnt +=1;
         }
-	    if(y != 9 && x != 9 && board[x+1][y+1].equals("*")){   //inferior derecho
+        if(y != 9 && x != 9 && board[x+1][y+1].equals("*")){   //inferior derecho
             cnt +=1;
         }
         return cnt;
@@ -36,12 +38,14 @@ public class Buscaminas {
 
         for (int a = 0; a < 10; a++) {
             for (int j= 0; j < 10; j++) {
-                if(Math.random()*10 < 2)
+                if(Math.random()*10 < 2) {
                     board[a][j] = "*";
-                else
+                    bombs++;
+                }else
                     board[a][j]= " ";
             }
         }
+        box = 100-bombs;
         int cont = 0;
         for (int a = 0; a < 10; a++) {
             for (int j= 0; j < 10; j++) {
@@ -61,7 +65,7 @@ public class Buscaminas {
         }
     }
 
-    
+
 
     public static boolean look(String[][] board, int x, int y){
         if (board[x][y].equals("*")) return false; else return true;
@@ -73,64 +77,64 @@ public class Buscaminas {
                 board[x+1][y] = ".";
                 checkAround(board, displayedBoard, x+1, y);
             }
-            // else
-                displayedBoard[x+1][y] = board[x+1][y];
+            if(displayedBoard[x+1][y].equals("#")) box--;
+            displayedBoard[x+1][y] = board[x+1][y];
         }
-	    if(y != 0 && !board[x][y-1].equals("*")){     //superior
+        if(y != 0 && !board[x][y-1].equals("*")){     //superior
             if(board[x][y-1].equals(" ")){
                 board[x][y-1] = ".";
                 checkAround(board, displayedBoard, x, y-1);
             }
-            // else
-                displayedBoard[x][y-1] = board[x][y-1];
+            if(displayedBoard[x][y-1].equals("#")) box--;
+            displayedBoard[x][y-1] = board[x][y-1];
         }
-	    if(y != 0 && x != 9 && !board[x+1][y-1].equals("*")){   //superior derecho
+        if(y != 0 && x != 9 && !board[x+1][y-1].equals("*")){   //superior derecho
             if(board[x+1][y-1].equals(" ")){
                 board[x+1][y-1] = ".";
                 checkAround(board, displayedBoard, x+1, y-1);
             }
-            // else
-                displayedBoard[x+1][y-1] = board[x+1][y-1];
+            if(displayedBoard[x+1][y-1].equals("#")) box--;
+            displayedBoard[x+1][y-1] = board[x+1][y-1];
         }
-	    if(y != 0 && x != 0 && !board[x-1][y-1].equals("*")){   //superior izquierdo
+        if(y != 0 && x != 0 && !board[x-1][y-1].equals("*")){   //superior izquierdo
             if(board[x-1][y-1].equals(" ")){
                 board[x-1][y-1] = ".";
                 checkAround(board, displayedBoard, x-1, y-1);
             }
-            // else
-                displayedBoard[x-1][y-1] = board[x-1][y-1];
+            if(displayedBoard[x-1][y-1].equals("#")) box--;
+            displayedBoard[x-1][y-1] = board[x-1][y-1];
         }
-	    if(x != 0 && !board[x-1][y].equals("*")){     //izquierdo
+        if(x != 0 && !board[x-1][y].equals("*")){     //izquierdo
             if(board[x-1][y].equals(" ")){
                 board[x-1][y] = ".";
                 checkAround(board, displayedBoard, x-1, y);
             }
-            // else
-                displayedBoard[x-1][y] = board[x-1][y];
+            if(displayedBoard[x-1][y].equals("#")) box--;
+            displayedBoard[x-1][y] = board[x-1][y];
         }
-	    if(x != 0 && y != 9 && !board[x-1][y+1].equals("*")){   //inferior izquierdo
+        if(x != 0 && y != 9 && !board[x-1][y+1].equals("*")){   //inferior izquierdo
             if(board[x-1][y+1].equals(" ")){
                 board[x-1][y+1] = ".";
                 checkAround(board, displayedBoard, x-1, y+1);
             }
-            // else
-                displayedBoard[x-1][y+1] = board[x-1][y+1];
+            if(displayedBoard[x-1][y+1].equals("#")) box--;
+            displayedBoard[x-1][y+1] = board[x-1][y+1];
         }
-	    if(y != 9 && !board[x][y+1].equals("*")){     //inferior
+        if(y != 9 && !board[x][y+1].equals("*")){     //inferior
             if(board[x][y+1].equals(" ")){
                 board[x][y+1] = ".";
                 checkAround(board, displayedBoard, x, y+1);
             }
-            // else
-                displayedBoard[x][y+1] = board[x][y+1];
+            if(displayedBoard[x][y+1].equals("#")) box--;
+            displayedBoard[x][y+1] = board[x][y+1];
         }
-	    if(y != 9 && x != 9 && !board[x+1][y+1].equals("*")){   //inferior derecho
+        if(y != 9 && x != 9 && !board[x+1][y+1].equals("*")){   //inferior derecho
             if(board[x+1][y+1].equals(" ")){
                 board[x+1][y+1] = ".";
                 checkAround(board, displayedBoard, x+1, y+1);
             }
-            // else
-                displayedBoard[x+1][y+1] = board[x+1][y+1];
+            if(displayedBoard[x+1][y+1].equals("#")) box--;
+            displayedBoard[x+1][y+1] = board[x+1][y+1];
         }
     }
 
@@ -150,22 +154,24 @@ public class Buscaminas {
         } while(Display.prompt(x,y) || repeated(displayedBoard, x, y));
         x -= 1; y -= 1;
         if (look(board, x, y) ){
-            displayedBoard[x][y] = board[x][y];
+            displayedBoard[x][y] = board[x][y]; box--;
             checkAround(board, displayedBoard, x, y);
             return true;
         }
         Display.lose();
         return false;
     }
-    
+
     public static void run(String[][] board, String [][] displayedBoard){
         fill(board);
         fillDisplay(displayedBoard);
         Display.display(board);
         Display.display(displayedBoard);
         Scanner input = new Scanner(System.in);
-        while(select(board, displayedBoard, input)){
+        while(box != 0 && select(board, displayedBoard, input)){
             Display.display(displayedBoard);
         }
+        if (box==0)
+            Display.win();
     }
 }

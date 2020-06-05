@@ -23,4 +23,8 @@ public class Display {
     public static void lose(){
         System.out.println("You lost :C");
     }
+
+    public static void win(){
+        System.out.println("You win :)");
+    }
 }

@@ -1,4 +1,5 @@
 package BuscaminaJuego;
+
 import java.util.Scanner;
 
 class Main {
