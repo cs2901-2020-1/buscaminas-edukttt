@@ -1,35 +1,23 @@
-package com.EduK.app;
+package BuscaminaJuego;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Buscaminas {
     private static int bombs=0;
     private static int box=0;
+    private static List<Integer> posx = new ArrayList<>(List.of(-1,-1,-1, 0, 0, 1, 1, 1));
+    private static List<Integer> posy = new ArrayList<>(List.of(-1, 0, 1,-1, 1,-1, 0, 1));
+    private static List<Integer> checkx = new ArrayList<>(List.of(0, 0, 0,-1,-1, 9, 9, 9));
+    private static List<Integer> checky = new ArrayList<>(List.of(0,-1, 9, 0, 9, 0,-1, 9));
+
 
     public static int checkNearby(String [][] board, int x, int y){
         int cnt = 0;
-        if(x != 9 && board[x+1][y].equals("*")){     //derecho
-            cnt +=1;
-        }
-        if(y != 0 && board[x][y-1].equals("*")){     //superior
-            cnt +=1;
-        }
-        if(y != 0 && x != 9 && board[x+1][y-1].equals("*")){   //superior derecho
-            cnt +=1;
-        }
-        if(y != 0 && x != 0 && board[x-1][y-1].equals("*")){   //superior izquierdo
-            cnt +=1;
-        }
-        if(x != 0 && board[x-1][y].equals("*")){     //izquierdo
-            cnt +=1;
-        }
-        if(x != 0 && y != 9 && board[x-1][y+1].equals("*")){   //inferior izquierdo
-            cnt +=1;
-        }
-        if(y != 9 && board[x][y+1].equals("*")){     //inferior
-            cnt +=1;
-        }
-        if(y != 9 && x != 9 && board[x+1][y+1].equals("*")){   //inferior derecho
-            cnt +=1;
+        for(int i=0; i<8; i++){
+            if(x != checkx.get(i) && y != checky.get(i) && board[x+posx.get(i)][y+posy.get(i)].equals("*")){
+                cnt++;
+            }
         }
         return cnt;
     }
@@ -72,69 +60,15 @@ public class Buscaminas {
     }
 
     public static void checkAround(String[][] board, String[][] displayedBoard, int x, int y){
-        if(x != 9 && (!board[x+1][y].equals("*"))){     //derecho
-            if(board[x+1][y].equals(" ")){
-                board[x+1][y] = ".";
-                checkAround(board, displayedBoard, x+1, y);
+        for(int i=0; i<8; i++){
+            if(x != checkx.get(i) && y != checky.get(i) && (!board[x+posx.get(i)][y+posy.get(i)].equals("*"))){
+                if(board[x+posx.get(i)][y+posy.get(i)].equals(" ")){
+                    board[x+posx.get(i)][y+posy.get(i)] = ".";
+                    checkAround(board, displayedBoard, x+posx.get(i), y+posy.get(i));
+                }
+                if(displayedBoard[x+posx.get(i)][y+posy.get(i)].equals("#")) box--;
+                displayedBoard[x+posx.get(i)][y+posy.get(i)] = board[x+posx.get(i)][y+posy.get(i)];
             }
-            if(displayedBoard[x+1][y].equals("#")) box--;
-            displayedBoard[x+1][y] = board[x+1][y];
-        }
-        if(y != 0 && !board[x][y-1].equals("*")){     //superior
-            if(board[x][y-1].equals(" ")){
-                board[x][y-1] = ".";
-                checkAround(board, displayedBoard, x, y-1);
-            }
-            if(displayedBoard[x][y-1].equals("#")) box--;
-            displayedBoard[x][y-1] = board[x][y-1];
-        }
-        if(y != 0 && x != 9 && !board[x+1][y-1].equals("*")){   //superior derecho
-            if(board[x+1][y-1].equals(" ")){
-                board[x+1][y-1] = ".";
-                checkAround(board, displayedBoard, x+1, y-1);
-            }
-            if(displayedBoard[x+1][y-1].equals("#")) box--;
-            displayedBoard[x+1][y-1] = board[x+1][y-1];
-        }
-        if(y != 0 && x != 0 && !board[x-1][y-1].equals("*")){   //superior izquierdo
-            if(board[x-1][y-1].equals(" ")){
-                board[x-1][y-1] = ".";
-                checkAround(board, displayedBoard, x-1, y-1);
-            }
-            if(displayedBoard[x-1][y-1].equals("#")) box--;
-            displayedBoard[x-1][y-1] = board[x-1][y-1];
-        }
-        if(x != 0 && !board[x-1][y].equals("*")){     //izquierdo
-            if(board[x-1][y].equals(" ")){
-                board[x-1][y] = ".";
-                checkAround(board, displayedBoard, x-1, y);
-            }
-            if(displayedBoard[x-1][y].equals("#")) box--;
-            displayedBoard[x-1][y] = board[x-1][y];
-        }
-        if(x != 0 && y != 9 && !board[x-1][y+1].equals("*")){   //inferior izquierdo
-            if(board[x-1][y+1].equals(" ")){
-                board[x-1][y+1] = ".";
-                checkAround(board, displayedBoard, x-1, y+1);
-            }
-            if(displayedBoard[x-1][y+1].equals("#")) box--;
-            displayedBoard[x-1][y+1] = board[x-1][y+1];
-        }
-        if(y != 9 && !board[x][y+1].equals("*")){     //inferior
-            if(board[x][y+1].equals(" ")){
-                board[x][y+1] = ".";
-                checkAround(board, displayedBoard, x, y+1);
-            }
-            if(displayedBoard[x][y+1].equals("#")) box--;
-            displayedBoard[x][y+1] = board[x][y+1];
-        }
-        if(y != 9 && x != 9 && !board[x+1][y+1].equals("*")){   //inferior derecho
-            if(board[x+1][y+1].equals(" ")){
-                board[x+1][y+1] = ".";
-                checkAround(board, displayedBoard, x+1, y+1);
-            }
-            if(displayedBoard[x+1][y+1].equals("#")) box--;
-            displayedBoard[x+1][y+1] = board[x+1][y+1];
         }
     }
 
