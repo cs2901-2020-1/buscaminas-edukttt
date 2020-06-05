@@ -12,7 +12,7 @@ public class Buscaminas {
     public static void fillDisplay(String[][] displayBoard){
         for(int i = 0; i < 10; i++){
             for(int j = 0; j < 10; j++){
-                displayBoard[i][j] = '#';
+                displayBoard[i][j] = "#";
             }
         }
     }
